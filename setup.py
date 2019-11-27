@@ -1,12 +1,11 @@
-# ======================
+# =====================================
 # Aficionado
 #
 # Description:
-# A basic AWS Lambda
-# wrapper for python
+# A basic AWS Lambda wrapper for python
 #
 # Author: Samuel Hornsey
-# ======================
+# =====================================
 
 from setuptools import setup, find_packages
 

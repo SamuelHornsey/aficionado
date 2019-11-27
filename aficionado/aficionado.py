@@ -51,6 +51,15 @@ class Aficionado:
     return decorator
 
   def not_found(self):
+    '''
+    Not found handler
+
+    Parameters:
+      self (Aficionado): self object
+
+    Returns:
+      decorator (function): a handler function
+    '''
     def decorator(function):
       self.router.not_found(function)
       return function
@@ -58,5 +67,16 @@ class Aficionado:
     return decorator
 
   def handler (self, event, context):
-    pass
+    '''
+    The lambda handler
+
+    Parameters:
+      self (Aficionado): self object
+      event (dict): event object
+      context (Context): AWS lambda context
+
+    Returns:
+      response (dict): response dictionary
+    '''
+    return {}
 

@@ -16,7 +16,7 @@ class Router:
     )
 
     self.routes = []
-    self.not_found = not_found
+    self.not_found_route = not_found
 
   def add (self, route):
     '''
@@ -32,7 +32,7 @@ class Router:
       if r.path == route.path:
         raise Exception('Path {path} already exists'.format(route.path))
 
-    self.routes.pust(route)
+    self.routes.append(route)
 
   def find_route (self, path):
     '''
@@ -51,7 +51,7 @@ class Router:
       if r.path == path:
         return r
 
-    return self.not_found
+    return self.not_found_route
 
   def not_found(self, handler):
     '''
@@ -67,7 +67,7 @@ class Router:
       allowed_methods=['ALL']
     )
 
-    self.not_found = not_found
+    self.not_found_route = not_found
 
     
 

@@ -1,4 +1,5 @@
 attrs==19.3.0
+aws-lambda-context==1.1.0
 coverage==4.5.4
 importlib-metadata==0.23
 more-itertools==7.2.0

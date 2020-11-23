@@ -6,3 +6,4 @@ __pycache__
 dist
 .vscode
 htmlcov
+.DS_STORE

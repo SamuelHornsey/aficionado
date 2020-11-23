@@ -1,0 +1,12 @@
+{
+  "path": "/",
+  "httpMethod": "GET",
+  "requestContext": {
+    "resourcePath": "/",
+    "httpMethod": "GET"
+  },
+  "multiValueQueryStringParameters": null,
+  "headers": {
+    "some-header": "a-header"
+  }
+}

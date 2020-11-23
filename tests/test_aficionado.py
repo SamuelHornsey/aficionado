@@ -1,11 +1,17 @@
+import pytest
+
 from aficionado import Aficionado
+from tests.tools import (
+  call_app,
+  create_app,
+  read_event
+)
 
-from .tools import call_app
-
-# init app
 app = Aficionado()
 
-def test_app ():
+# <?[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+>
+
+def test_app():
   '''
   Test the main app
   '''
@@ -17,33 +23,27 @@ def test_app ():
   def page():
     return 'Hello World'
 
-  assert len(app.router.routes) == 2
+  assert '/' in app.router.routes
+  assert len(app.router.routes['/']) == 1
 
-def test_route ():
+def test_static_route():
   '''
   Test route decorator
   '''
-  def handler ():
+  def handler():
     return 'Hello World'
 
   app.route('/page_2')(handler)
 
-  assert len(app.router.routes) == 3
+  assert '/' in app.router.routes
+  assert len(app.router.routes['/']) == 1
 
-def test_not_found ():
-  '''
-  Test not found decorator
-  '''
-  @app.not_found()
-  def not_found ():
-    return 'Page not found'
-
-  assert app.router.not_found_route.handler == not_found
-
-def test_handler ():
+def test_handler(create_app):
   '''
   Test handler function
   '''
-  res = app.handler({}, {})
+  res = call_app(app)
+  assert res.body == 'Hello World'
 
-  assert res == {}
+  res = create_app(read_event('default'), {})
+  assert res.body == 'Hello World'

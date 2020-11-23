@@ -1,24 +1,32 @@
-# imports
+import re
+
 from aficionado.route import Route
-from aficionado.defaults import not_found_handler, internal_error_handler
+
+class PathNotFoundException(Exception):
+  pass
+
+class MethodDoesNotExistException(Exception):
+  pass
+
+class MethodNotAllowedException(Exception):
+  pass
+
+HTTP_METHODS = [
+  'GET',
+  'POST',
+  'UPDATE',
+  'DELETE',
+  'HEAD'
+]
 
 class Router:
   def __init__(self):
     '''
     Constructor
     '''
+    self.routes = {}
 
-    # create route for not found
-    not_found = Route(
-      path=None,
-      handler=not_found_handler,
-      allowed_methods=['ALL']
-    )
-
-    self.routes = []
-    self.not_found_route = not_found
-
-  def add (self, route):
+  def add(self, route):
     '''
     Add a route to the router
 
@@ -26,15 +34,14 @@ class Router:
       self (Router): self object
       route (Route): route object
     '''
+    for method in route.allowed_methods:
+      if method not in HTTP_METHODS:
+        raise MethodDoesNotExistException(f'HTTP method {method} is not valid')
+      
+      self.routes.setdefault(route.path, {})
+      self.routes[route.path][method] = route
 
-    # check that route is not already in routes
-    for r in self.routes:
-      if r.path == route.path:
-        raise Exception('Path {path} already exists'.format(route.path))
-
-    self.routes.append(route)
-
-  def find_route (self, path):
+  def find_route(self, path, method='GET'):
     '''
     Find the current route
 
@@ -45,29 +52,14 @@ class Router:
     Returns:
       route (Route): found route object
     '''
-
-    # find route in list
-    for r in self.routes:
-      if r.path == path:
-        return r
-
-    return self.not_found_route
-
-  def not_found(self, handler):
-    '''
-    Set the not found handler
-
-    Parameters:
-      self (Router): self object
-      handler (function): handler function
-    '''
-    not_found = Route(
-      path=None,
-      handler=handler,
-      allowed_methods=['ALL']
-    )
-
-    self.not_found_route = not_found
-
+    try:
+      return self.routes[path][method]
+    except KeyError:
+      if not self.routes.get(path):
+        raise PathNotFoundException(
+          f'Resource {path} could not be found')
+      if not self.routes[path].get(method):
+        raise MethodNotAllowedException(
+          f'Method {method} not allowed on resource {path}')
     
 

@@ -4,7 +4,14 @@ MODULE=aficionado
 
 # Run tests with coverage
 test:
-	pytest --cov=$(MODULE) tests/
+ifdef specific
+	pytest -k "$(specific)" tests/ -s
+else
+	pytest --cov=$(MODULE) tests/ -s
+endif
+
+test_report:
+	pytest --cov-report html --cov=$(MODULE) tests/
 
 # Clean distributions
 clean:

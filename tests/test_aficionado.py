@@ -1,6 +1,6 @@
 import pytest
 
-from aficionado import Aficionado
+from aficionado import Aficionado, Response
 from tests.tools import (
   call_app,
   create_app,
@@ -47,3 +47,12 @@ def test_handler(create_app):
 
   res = create_app(read_event('default'), {})
   assert res.body == 'Hello World'
+
+  response = Response('Hello World')
+
+  @create_app.route('/')
+  def index():
+    return response
+
+  res = call_app(create_app)
+  assert res == response

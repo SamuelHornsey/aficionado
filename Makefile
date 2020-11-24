@@ -10,9 +10,10 @@ else
 	pytest --cov=$(MODULE) tests/ -s
 endif
 
-test_report:
+report:
 	pytest --cov-report html --cov=$(MODULE) tests/
 
 # Clean distributions
 clean:
 	rm -rf dist *.egg-*
+	rm -rf htmlcov

@@ -5,7 +5,7 @@ def test_request_path(create_app):
   '''
   Test the request object path
   '''
-  res = call_app(create_app)
+  call_app(create_app)
 
   assert request.path == '/'
 
@@ -13,7 +13,7 @@ def test_request_method(create_app):
   '''
   Test the request method
   '''
-  res = call_app(create_app)
+  call_app(create_app)
 
   assert request.method == 'GET'
 
@@ -21,7 +21,7 @@ def test_request_headers(create_app):
   '''
   Test the request headers
   '''
-  res = call_app(create_app)
+  call_app(create_app)
 
   assert 'some-header' in request.headers
   assert request.headers.get('non-header') == None
@@ -32,4 +32,3 @@ def test_request_query_params(create_app):
   Test the request query params
   '''
   res = call_app(create_app)
-  print(res)

@@ -45,7 +45,14 @@ def test_router_find_route(create_router):
   route = create_router.find_route('/', 'GET')
   assert isinstance(route, Route)
 
-  with pytest.raises(Exception) as ex:
-    route = create_router.find_route('/bad_route', 'GET')
+  bad_route = '/bad_route'
 
-  assert str(ex.value) == 'Method GET cannot be found on path /bad_route'
+  with pytest.raises(Exception) as ex:
+    route = create_router.find_route(bad_route, 'GET')
+
+  assert str(ex.value) == f'Resource {bad_route} could not be found'
+
+  with pytest.raises(Exception) as ex:
+    route = create_router.find_route('/', 'DELETE')
+
+  assert str(ex.value) == 'Method DELETE not allowed on resource /'

@@ -1,6 +1,6 @@
 from aficionado.route import Route
 
-def test_route ():
+def test_route():
   '''
   Test route object
   '''
